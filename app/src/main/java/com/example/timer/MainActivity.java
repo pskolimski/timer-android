@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final long DEFAULT_MILLIS = 5 * 60 * 1000; // 5 minutes
 
     private long remainingMillis = DEFAULT_MILLIS;
-    private long originalMillis = DEFAULT_MILLIS; // target duration when timer started
+    private long originalMillis = DEFAULT_MILLIS;
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
 
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnPause = findViewById(R.id.btn_pause);
         Button btnReset = findViewById(R.id.btn_reset);
 
-        // direct references to preset buttons and logs ListView
         Button btn3 = findViewById(R.id.btn_preset_3);
         Button btn5 = findViewById(R.id.btn_preset_5);
         Button btn10 = findViewById(R.id.btn_preset_10);
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         View.OnClickListener presetClick = v -> {
             Object tag = v.getTag();
-            int minutes = 5; // fallback
+            int minutes = 5;
             if (tag instanceof Integer) {
                 minutes = (Integer) tag;
             } else {
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             updateTimeDisplay();
         };
 
-        // set tags and listeners only if buttons exist
         if (btn3 != null) { btn3.setTag(3); btn3.setOnClickListener(presetClick); }
         if (btn5 != null) { btn5.setTag(5); btn5.setOnClickListener(presetClick); }
         if (btn10 != null) { btn10.setTag(10); btn10.setOnClickListener(presetClick); }
@@ -128,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                // timer completed normally — log elapsed vs planned
-                long elapsed = originalMillis; // full duration elapsed
+                long elapsed = originalMillis;
                 String ts = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
                 String entry = String.format(Locale.getDefault(), "%s — %s / %s", ts, formatMillis(elapsed), formatMillis(originalMillis));
                 addLog(entry);
@@ -168,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addLog(String entry) {
-        logs.add(0, entry); // newest first
+        logs.add(0, entry);
         if (logs.size() > 20) logs.remove(logs.size() - 1);
         if (logsAdapter != null) logsAdapter.notifyDataSetChanged();
         if (lvLogs != null) setListViewHeightBasedOnChildren(lvLogs);
